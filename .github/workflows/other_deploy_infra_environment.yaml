@@ -1,0 +1,46 @@
+name: Other - Deploy Infrastructure Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      azureSecretName:
+        description: 'Azure Secret Name containing the Service Principal Details'
+        required: true
+        default: 'AZURE_SUBSCRIPTION'
+      environmentName:
+        description: 'The environment deployment name [prod, qa, dev]'
+        required: true
+        default: 'prod'
+      prefix:
+        description: 'The deployment prefix used for all Azure artifacts.'
+        required: true
+        default: 'aks-cicd'
+      location:
+        description: 'The deployment location used for all Azure artefacts.'
+        required: true
+        default: 'northeurope'
+
+defaults:
+  run:
+    working-directory: infrastructure
+jobs:
+  deploy:
+    name: Deploy infrastructure using Terraform to Azure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Print Inputs
+        run: |
+          echo "Azure Secret Name: ${{ github.event.inputs.azureSecretName }}"
+          echo "Environment Name: ${{ github.event.inputs.environmentName }}"
+          echo "Prefix: ${{ github.event.inputs.prefix }}"
+          echo "Location: ${{ github.event.inputs.location }}"
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets[github.event.inputs.azureSecretName] }}
+      - name: Run Terraform Apply
+        run: ./tf.ps1 -Verbose -Force -Prefix ${{ github.event.inputs.prefix }} -Location ${{ github.event.inputs.location }} -EnvironmentName ${{ github.event.inputs.environmentName }} -TargetPath . -Apply -Download
+        shell: pwsh
+        env:
+          AZURE_CREDENTIALS: ${{ secrets[github.event.inputs.azureSecretName] }}
