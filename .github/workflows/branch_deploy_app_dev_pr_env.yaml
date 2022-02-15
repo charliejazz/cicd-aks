@@ -51,6 +51,7 @@ jobs:
       ACR_APP_IMAGE_TAG: ${{ needs.deploy_details.outputs.app_container_version }}
 
     steps:
+      - uses: actions/checkout@v2
       - name: Report Success
         uses: actions/github-script@v3
         env:
