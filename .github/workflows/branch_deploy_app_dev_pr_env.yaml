@@ -62,7 +62,7 @@ jobs:
               , DeploymentManager = require(scriptPath)
               ;
             const manager = new DeploymentManager(context, github);
-            await manager.activateDeployment(context.payload.deployment.id, "myapp.com");
+            await manager.activateDeployment(context.payload.deployment.id, "https://myapp.com");
       - name: Report Failure
         if: failure()
         uses: octokit/request-action@v1.x
