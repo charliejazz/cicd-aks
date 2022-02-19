@@ -18,7 +18,7 @@ on:
 jobs:
   build_parameters:
     name: Define Build Parameters
-    runs-on: self-hosted-linux
+    runs-on: self-hosted
 
     # We need to share details across job boundaries, expose the step outputs at the job level
     outputs:
