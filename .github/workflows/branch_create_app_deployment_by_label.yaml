@@ -13,7 +13,7 @@ on:
 jobs:
   deployment:
     name: Create deployment
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-linux
     if: |
       github.event.label.name == 'Deploy to Test'
 

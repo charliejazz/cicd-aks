@@ -18,7 +18,7 @@ on:
 jobs:
   build_parameters:
     name: Define Build Parameters
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-linux
 
     # We need to share details across job boundaries, expose the step outputs at the job level
     outputs:
@@ -99,12 +99,12 @@ jobs:
       #  with:
      #     username: ${{ github.repository_owner }}
       #    password: ${{ secrets.CR_PAT }}
-        #  registry: ghcr.io
-#
-     # - name: Publish Container image
-      #  id: container_publish
-     #   run: |
-     #     docker push ${{ steps.maven_build.outputs.container_registry }}/${{ steps.maven_build.outputs.container_image }}:${{ steps.maven_build.outputs.container_version }}
+          registry: ghcr.io
+
+      - name: Publish Container image
+        id: container_publish
+        run: |
+          docker push ${{ steps.maven_build.outputs.container_registry }}/${{ steps.maven_build.outputs.container_image }}:${{ steps.maven_build.outputs.container_version }}
 
       - name: Publish App Container as a Status
         id: container_image_status
