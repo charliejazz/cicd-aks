@@ -16,3 +16,9 @@ jobs:
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
+
+      - name: deploy
+        id: maven_build
+        run: |
+          echo ${{ github.event.input.tag }}
+        shell: bash
