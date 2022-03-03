@@ -1,0 +1,13 @@
+name: Test Manual
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy infrastructure using Terraform to Azure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v2
