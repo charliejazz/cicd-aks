@@ -40,7 +40,6 @@ jobs:
             ;
             buildParameters(context, core).injectBuildParameters();
 
-
   build:
     name: Build, Test and Package
     runs-on: ubuntu-latest
