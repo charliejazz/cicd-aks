@@ -16,3 +16,6 @@ jobs:
     steps:
       - name: Checkout Sources
         uses: actions/checkout@v2
+
+        run: |
+           echo ${{ github.event.input.tag }}
