@@ -1,6 +1,6 @@
 name: Test Manual
-
 on:
+  push:
   workflow_dispatch:
     inputs:
       env:
