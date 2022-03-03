@@ -6,7 +6,7 @@ on:
 jobs:
   deploy_details:
     name: Define Deployment Details
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     if: |
       startsWith(github.event.deployment.environment, 'dev')
