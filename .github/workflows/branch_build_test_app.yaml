@@ -111,7 +111,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.maven_build.outputs.container_version }}',
+              ref: 'refs/tags/${{ github.ref_name }}-${{ github.run_number }}',
               sha: context.sha
             })
       - name: Publish App Container as a Status
@@ -121,4 +121,4 @@ jobs:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           state: success
           context: Container Image Published - App
-          description: ${{ steps.maven_build.outputs.container_image }}:${{ steps.maven_build.outputs.container_version }}
+          description: ${{ steps.maven_build.outputs.container_image }}:${{ github.ref_name }}-${{ github.run_number }}
