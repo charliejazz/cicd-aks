@@ -9,8 +9,6 @@ name: Branch - Build & Test App
 
 on:
   push:
-    branches-ignore:
-    - main
     paths-ignore:
     - '.github/workflows/other_deploy_infra_environment.yaml'
     - 'infrastructure/**'
@@ -106,6 +104,16 @@ jobs:
     #    run: |
    #       docker push ${{ steps.maven_build.outputs.container_registry }}/${{ steps.maven_build.outputs.container_image }}:${{ steps.maven_build.outputs.container_version }}
 #
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.maven_build.outputs.container_version }}',
+              sha: context.sha
+            })
       - name: Publish App Container as a Status
         id: container_image_status
         uses: Sibz/github-status-action@v1
