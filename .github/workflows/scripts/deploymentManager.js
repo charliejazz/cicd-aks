@@ -30,6 +30,8 @@ module.exports = class DeploymentManager {
       }
     });
 
+    
+
     // Get all deployments for the specified environment
     const allDeployments = await this.getAllDeployments(deployment.environment)
 
