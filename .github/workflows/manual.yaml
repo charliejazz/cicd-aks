@@ -20,5 +20,5 @@ jobs:
       - name: deploy
         id: maven_build
         run: |
-          echo ${{ github }}
+          echo ${{ toJSON(github) }}
         shell: bash
