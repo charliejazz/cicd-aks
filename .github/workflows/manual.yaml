@@ -2,10 +2,14 @@ name: Test Manual
 
 on:
   workflow_dispatch:
-
+    inputs:
+      env:
+        description: 'Azure Secret Name containing the Service Principal Details'
+        required: true
+        default: 'AZURE_SUBSCRIPTION'
 jobs:
   deploy:
-    name: Deploy infrastructure using Terraform to Azure
+    name: Test manual tags
     runs-on: ubuntu-latest
 
     steps:
