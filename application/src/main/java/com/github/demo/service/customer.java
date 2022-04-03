@@ -4,5 +4,5 @@ import com.github.demo.model.Book;
 
 import java.util.List;
 
-public class BookService {
+public class CustomerService {
 }
