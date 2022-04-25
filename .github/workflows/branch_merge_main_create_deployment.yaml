@@ -63,16 +63,3 @@ jobs:
               ref: 'refs/tags/${{ github.ref_name }}-${{ github.run_number }}',
               sha: context.sha
             })
-
-      - name: Report Failure
-        if: failure()
-        uses: actions/github-script@v3
-        with:
-          script: |
-            const commentBody = `Failure in _${context.payload.label.name.toLowerCase()}_, for more details see https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
-
-            await github.issues.createComment({
-              ...context.repo,
-              issue_number: context.payload.number,
-              body: commentBody,
-            });
