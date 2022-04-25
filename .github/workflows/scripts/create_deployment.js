@@ -10,6 +10,7 @@ module.exports = async (payload) => {
     containerRegistry = validateParameter(payload, 'containerRegistry'),
     appContainerImage = validateParameter(payload, 'appContainerImage'),
     appContainerVersion = validateParameter(payload, 'appContainerVersion'),
+    description = validateParameter(payload, 'description'),
     sha = validateParameter(payload, 'sha'),
     head = validateParameter(payload, 'head');
 
@@ -18,7 +19,7 @@ module.exports = async (payload) => {
   production_environment = false;
   switch (environment) {
     case 'dev':
-      deploymentEnvironment = `dev-${head}`;
+      deploymentEnvironment = `dev`;
       transient_environment = false; // this seems to make Inactive=Destroyed and does not trigger deployment_status anymore
       production_environment = false;
       break;
@@ -41,6 +42,7 @@ module.exports = async (payload) => {
       image: appContainerImage,
       version: appContainerVersion,
     },
+    description: description,
     sha: sha,
     environment: deploymentEnvironment,
     ref: context.ref,

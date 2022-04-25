@@ -1,4 +1,4 @@
-name: Branch - Deploy App to PR Environment
+name: Branch - Deploy App to Prod
 
 on:
   deployment:
@@ -7,10 +7,10 @@ jobs:
   deploy_details:
     name: Define Deployment Details
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
 
     if: |
-      startsWith(github.event.deployment.environment, 'dev')
+      startsWith(github.event.deployment.environment, 'prod')
 
     outputs:
       container_registry: ${{ steps.deployment_data.outputs.container_registry }}
@@ -35,13 +35,12 @@ jobs:
             ;
             await deploymentPayload(context, core, github).unpackAndStart();
 
-
   deploy_dev:
-    name: Deploy to DEV
+    name: Deploy to PROD
     runs-on: ubuntu-latest
 
     if: |
-      startsWith(github.event.deployment.environment, 'dev')
+      startsWith(github.event.deployment.environment, 'prod')
       
     needs:
       - deploy_details
