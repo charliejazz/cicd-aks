@@ -7,6 +7,7 @@ jobs:
   deploy_details:
     name: Define Deployment Details
     runs-on: ubuntu-latest
+    environment: dev
 
     if: |
       startsWith(github.event.deployment.environment, 'dev')
