@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: PR Desciption
+        uses: actions/github-script@v3
         if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
         env:
           pr_desciption: ${{ github.event.pull_request.title }}
