@@ -34,7 +34,7 @@ jobs:
 
           app_container_image: 'charliejazz/cicd-aks'
           app_container_version: ${{ github.ref_name }}-${{ github.run_number }}
-# create deployment with merged PR name
+
         with:
           github-token: ${{ steps.temp_token.outputs.token }}
           script: |
@@ -50,7 +50,7 @@ jobs:
               appContainerVersion: process.env.app_container_version,
               description: process.env.pr_desciption,
               sha: context.sha,
-              head: ${{ github.ref_name }}, //Branch name PR created from
+              head: ${{ github.ref }}, //Branch name PR created from
             });
 
       - name: Create tag
