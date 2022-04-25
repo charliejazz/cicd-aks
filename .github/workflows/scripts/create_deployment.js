@@ -10,6 +10,7 @@ module.exports = async (payload) => {
     containerRegistry = validateParameter(payload, 'containerRegistry'),
     appContainerImage = validateParameter(payload, 'appContainerImage'),
     appContainerVersion = validateParameter(payload, 'appContainerVersion'),
+    description = validateParameter(payload, 'description'),
     sha = validateParameter(payload, 'sha'),
     head = validateParameter(payload, 'head');
 
@@ -41,6 +42,7 @@ module.exports = async (payload) => {
       image: appContainerImage,
       version: appContainerVersion,
     },
+    description: description,
     sha: sha,
     environment: deploymentEnvironment,
     ref: context.ref,

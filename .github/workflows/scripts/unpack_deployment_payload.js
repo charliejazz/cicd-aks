@@ -22,6 +22,7 @@ class DeploymentPayload {
 
         core.setOutput('app_container_image', deploymentPayload.app_container.image);
         core.setOutput('app_container_version', deploymentPayload.app_container.version);
+        core.setOutput('app_deployment_description', deploymentPayload.description);
 
         core.setOutput('deployment_sha', deploymentPayload.sha);
         core.setOutput('deployment_github_ref', deploymentPayload.ref);

@@ -1,0 +1,77 @@
+name: Branch - Deploy App to Prod
+
+on:
+  deployment:
+
+jobs:
+  deploy_details:
+    name: Define Deployment Details
+    runs-on: ubuntu-latest
+    environment: prod
+
+    if: |
+      startsWith(github.event.deployment.environment, 'dev')
+
+    outputs:
+      container_registry: ${{ steps.deployment_data.outputs.container_registry }}
+      app_container_image: ${{ steps.deployment_data.outputs.app_container_image }}
+      app_container_version: ${{ steps.deployment_data.outputs.app_container_version }}
+      deployment_github_head: ${{ steps.deployment_data.outputs.deployment_github_head }}
+      deployment_sha: ${{ steps.deployment_data.outputs.deployment_sha }}
+      environment: ${{ steps.deployment_data.outputs.environment }}
+
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+
+      - name: Extract Deployment Details and Report Deployment in Progress
+        id: deployment_data
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const scriptPath = require('path').resolve('./.github/workflows/scripts/unpack_deployment_payload.js')
+              , deploymentPayload = require(scriptPath);
+            ;
+            await deploymentPayload(context, core, github).unpackAndStart();
+
+  deploy_dev:
+    name: Deploy to PROD
+    runs-on: ubuntu-latest
+
+    if: |
+      startsWith(github.event.deployment.environment, 'prod')
+      
+    needs:
+      - deploy_details
+
+    env:
+      AKS_APP_NAMESPACE: ${{ github.event.deployment.environment }}
+      ACR_APP_IMAGE: ${{ needs.deploy_details.outputs.app_container_image }} # e.g. ACR = 'akscicddevacrb1ce1.azurecr.io'
+      ACR_APP_IMAGE_TAG: ${{ needs.deploy_details.outputs.app_container_version }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Report Success
+        uses: actions/github-script@v3
+        env:
+          environment_url: "my-app.com"
+        with:
+          script: |
+            const scriptPath = require('path').resolve('./.github/workflows/scripts/deploymentManager.js')
+              , DeploymentManager = require(scriptPath)
+              ;
+            const manager = new DeploymentManager(context, github);
+            await manager.activateDeployment(context.payload.deployment.id, "https://myapp.com");
+      - name: Report Failure
+        if: failure()
+        uses: octokit/request-action@v1.x
+        with:
+          route: POST /repos/:owner/:repo/deployments/:deployment_id/statuses
+          deployment_id: ${{ github.event.deployment.id }}
+          description: "Deploy failed for ${{ github.event.deployment.environment }}"
+          environment: ${{ github.event.deployment.environment }}
+          state: "failure"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
