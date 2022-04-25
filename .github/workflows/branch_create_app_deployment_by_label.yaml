@@ -61,7 +61,7 @@ jobs:
               containerRegistry: process.env.container_registry,
               appContainerImage: process.env.app_container_image,
               appContainerVersion: process.env.app_container_version,
-              description:: ' dev feature',
+              description: ' dev feature',
               sha: context.sha,
               head: context.payload.pull_request.head.ref, //Branch name PR created from
             });
