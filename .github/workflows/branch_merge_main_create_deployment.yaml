@@ -50,7 +50,7 @@ jobs:
               appContainerVersion: process.env.app_container_version,
               description: process.env.pr_desciption,
               sha: context.sha,
-              head: ${{ github.head_ref }} //Branch name PR created from
+              head: context.ref //Branch name PR created from
             });
 
       - name: Create tag
