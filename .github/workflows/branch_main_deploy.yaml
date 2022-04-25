@@ -10,7 +10,7 @@ jobs:
     environment: prod
 
     if: |
-      startsWith(github.event.deployment.environment, 'dev')
+      startsWith(github.event.deployment.environment, 'prod')
 
     outputs:
       container_registry: ${{ steps.deployment_data.outputs.container_registry }}
