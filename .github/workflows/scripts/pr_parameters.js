@@ -33,7 +33,7 @@ module.exports = class PRManager {
             per_page: 100
           });
         
-          const pull = resp.data.find(p => p.merge_commit_sha === sha);
+          const pull = resp.data.find(p => p.merge_commit_sha === context.sha);
           if (!pull) {
             return null;
           }
