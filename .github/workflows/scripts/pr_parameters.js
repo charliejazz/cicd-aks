@@ -7,7 +7,11 @@ module.exports = class PRManager {
     }
 
     async getMergedPullRequest() {
-      const pull = await getMergedPullRequestInternal();
+      const context = this.context
+      , github = this.github
+      , core = this.core
+      ;
+      const pull = await this.getMergedPullRequestInternal();
 
       core.setOutput('title', pull.title);
     }
