@@ -56,7 +56,7 @@ jobs:
               containerRegistry: process.env.container_registry,
               appContainerImage: process.env.app_container_image,
               appContainerVersion: process.env.app_container_version,
-              description: ${{ steps.pr_parameters.outputs.title }},
+              description: '${{ steps.pr_parameters.outputs.title }}',
               sha: context.sha,
               head: context.ref // Branch name PR created from
             });
