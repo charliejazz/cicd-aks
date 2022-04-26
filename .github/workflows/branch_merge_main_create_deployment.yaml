@@ -22,7 +22,7 @@ jobs:
         with:
           script: |
             const scriptPath = require('path').resolve('./.github/workflows/scripts/pr_parameters.js');
-            const prManager = require(scriptPath);
+            const _prManager = require(scriptPath);
 
             const prManager = new PRManager(context, github, core);
             await prManager.getMergedPullRequest();
